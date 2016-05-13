@@ -1,0 +1,16 @@
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\ball.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\basket.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\fail.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\success.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\bgm.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\bgm.wma
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Basket__n_Ball.exe
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Basket__n_Ball.pdb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Basket__n_Ball.csprojResolveAssemblyReference.cache
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Basket__n_Ball.exe
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Basket__n_Ball.pdb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\player1ss.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\player2ss.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\font.xnb
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\bgi.xnb
