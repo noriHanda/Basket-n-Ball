@@ -149,8 +149,13 @@ namespace Basket__n_Ball
             {
                 if (splash == 1)    // function for player 1 auto play
                 {
+                    splashInterval++;
                     splashTimer1 += 1;
                     splashTimer1 = splashTimer1 % 7;
+                    if (splashInterval == 240)
+                    {
+                        player1Move = true; // Charater 2 begins moving when soundeffect ended
+                    }
                     if (player1Move)
                     {
                         if (player1curCol != 4 && splashTimer1== 2)        // if focus is not on the last picture, 5th picture, then move right by one
@@ -192,17 +197,18 @@ namespace Basket__n_Ball
                             fail.Play();
                             ballRecX = 10;          // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
                             ballRecY = 10;
-                            splashInterval++;   // Wait till the soundeffect ends
+                            player2Move = true;
+                            splashInterval = 0; // Reset to 0 so that this can be used again
                         }
                     }
                 }
                 else if (splash == 2)       // function for player 2 auto play
                 {
-                    splashTimer2++;
-                    splashTimer2 = splashTimer1 % 5;
+                    splashInterval++;   // Wait till the soundeffect ends
+                    splashTimer2 += 1;
+                    splashTimer2 = splashTimer2 % 5;
                     if (splashInterval == 240)
                     {
-                        splashInterval = 0; // Reset to 0 so that this can be used again
                         player2Move = true; // Charater 2 begins moving when soundeffect ended
                     }
                     if (player2Move)
@@ -243,20 +249,27 @@ namespace Basket__n_Ball
                             basketRandom1 = true;
                             rdmPA1 = true;
                             time2 = 0;          // if this isn't here, when turn comes back to player 2, the ball will not start from its original place.
-                            splash = 2;
+                            splash = 1;
                             fail.Play();
                             ballRecX = 10;      // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
                             ballRecY = 10;
                             change = true;
-                            splashInterval++;
+                            splashInterval = 0; // Reset to 0 so that this can be used again 
                         }
                     }
                 }
                 if (keys.IsKeyDown(Keys.C))
                 {
                     gameState = "intro";
+                    player1Move = false;
+                    player2Move = false;
                     time = 0;
                     time2 = 0;
+                    player1curCol = 0;
+                    player2curCol = 0;
+                    ballVisible = false;
+                    ballRec.X = 10;
+                    ballRec.Y = 10;
                 }
             }
 
@@ -462,7 +475,6 @@ namespace Basket__n_Ball
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         void DrawSpritePlayer1(Rectangle windowLocation,
-                            int rowNum,
                             int colNum)
         {
             Rectangle player1SSrect = new Rectangle(colNum * player1SSwidth, 0, player1SSwidth, player1SSheight);
@@ -507,7 +519,7 @@ namespace Basket__n_Ball
                     {
                         spriteBatch.Draw(imgBall, ballRec, Color.White);
                     }
-                    DrawSpritePlayer1(player1rec, 0, player1curCol);
+                    DrawSpritePlayer1(player1rec, player1curCol);
                 }
                 if (splash == 2)
                 {
@@ -536,7 +548,7 @@ namespace Basket__n_Ball
                 }
                 spriteBatch.DrawString(font, powerText, angleVector, Color.Black);
                 spriteBatch.DrawString(font, angleText, powerVector, Color.Black);
-                DrawSpritePlayer1(player1rec, 0, player1curCol);
+                DrawSpritePlayer1(player1rec, player1curCol);
             }
             if (gameState == "player2")
             {
