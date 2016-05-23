@@ -8,3 +8,5 @@ Content\bgm.xnb
 Content\bgm.wma
 Content\font.xnb
 Content\bgi.xnb
+Content\introBGM.xnb
+Content\introBGM.wma

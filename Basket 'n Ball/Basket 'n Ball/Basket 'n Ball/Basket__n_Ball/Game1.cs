@@ -30,8 +30,9 @@ namespace Basket__n_Ball
         Random rndmAngle, rndmPow;    // Random number for splash screen
         int splash;
         int angleR1, powR1, angleR2, powR2;
+        int numThrow1, numThrow2;   //Holds number of throws each player made
         bool rdmPA1, rdmPA2;
-        Song bgm;
+        Song bgm, introBGM;
 
         int power1, angle1, power2, angle2;                                       // stores power and angle (will be used when player throws)
         double angleR;
@@ -81,7 +82,8 @@ namespace Basket__n_Ball
             rndmBasket =new Random();
             rndmAngle = new Random();
             rndmPow = new Random();
-            //basketRandom1 = true;
+            numThrow1 = 1;
+            numThrow2 = 1;
             base.Initialize();
         }
 
@@ -106,6 +108,7 @@ namespace Basket__n_Ball
             success = Content.Load<SoundEffect>("success");
 
             bgm = Content.Load<Song>("bgm");
+            introBGM = Content.Load<Song>("introBGM");
 
             player1SSwidth = imgPlayer1.Width / 5;      // Get width of each section
             player2SSwidth = imgPlayer2.Width / 16;      // Get width of each section
@@ -142,12 +145,17 @@ namespace Basket__n_Ball
                 {
                     rdmPA1 = true;
                     gameState = "splash";
-                    player1Move = true;
                     basketRandom1 = true;
                 }
             }
             if (gameState == "splash")
             {
+                if (MediaPlayer.State != MediaState.Playing)
+                {
+                    MediaPlayer.Play(introBGM);                           //if bgm is not playing, then play bgm.
+                    MediaPlayer.Volume = 10.0f;
+                    MediaPlayer.IsRepeating = true;                 // repeat bgm until the player wins or quit the game
+                }
                 if (splash == 1)    // function for player 1 auto play
                 {
                     splashInterval++;
@@ -185,8 +193,15 @@ namespace Basket__n_Ball
                         // Check if the ball got into basket
                         if (ballRec.Intersects(intersectRec))
                         {
-                            ballVisible = false;
-                            success.Play();         // play sound effect
+                            ballVisible = false;    // make it false so that 
+                            basketRandom2 = true;
+                            rdmPA2 = true;
+                            time = 0;           // if this isn't here, when turn comes back to player 1, the ball will not start from its original place.
+                            splash = 2;  // Change turn
+                            success.Play();
+                            ballRecX = 10;          // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
+                            ballRecY = 10;
+                            splashInterval = 0; // Reset to 0 so that this can be used again
                         }
                         if (ballRecX > GraphicsDevice.Viewport.Width || ballRecY > GraphicsDevice.Viewport.Height)
                         {
@@ -240,7 +255,14 @@ namespace Basket__n_Ball
                         if (ballRec.Intersects(intersectRec2))
                         {
                             ballVisible = false;
+                            basketRandom1 = true;
+                            rdmPA1 = true;
+                            time2 = 0;          // if this isn't here, when turn comes back to player 2, the ball will not start from its original place.
+                            splash = 1;
                             success.Play();
+                            ballRecX = 10;      // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
+                            ballRecY = 10;
+                            splashInterval = 0; // Reset to 0 so that this can be used again 
                         }
                         // If ball hits edge of screen, set ballvisible to false so that it won't move anymore.
                         if (ballRecX < 0 || ballRecY > GraphicsDevice.Viewport.Height)
@@ -260,6 +282,7 @@ namespace Basket__n_Ball
                 if (keys.IsKeyDown(Keys.C))
                 {
                     gameState = "intro";
+                    MediaPlayer.Pause();
                     player1Move = false;
                     player2Move = false;
                     time = 0;
@@ -356,6 +379,7 @@ namespace Basket__n_Ball
                         ballRecY = 10;
                         change = true;
                         onlyOnce = true;
+                        numThrow1++;
                     }
                 }
             }
@@ -431,6 +455,7 @@ namespace Basket__n_Ball
                         ballRecY = 10;
                         change = true;
                         onlyOnce = true;
+                        numThrow2++;
                     }
                 }
             }
@@ -493,11 +518,13 @@ namespace Basket__n_Ball
         {
             GraphicsDevice.Clear(Color.White);
             // variables for draw
-            Vector2 powerVector = new Vector2(100, 350);
-            Vector2 angleVector=new Vector2(400,350);
+            Vector2 powerVector = new Vector2(GraphicsDevice.Viewport.Width/5*2, 350);
+            Vector2 angleVector=new Vector2(GraphicsDevice.Viewport.Width/5*4,350);
             Vector2 introVector=new Vector2(100,150);
             Vector2 winVector =new Vector2(GraphicsDevice.Viewport.Width/2-100,GraphicsDevice.Viewport.Height/2);
             Vector2 playerVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 100, 100);
+            Vector2 cVector = new Vector2(270, 350);
+            Vector2 turnVec=new Vector2(GraphicsDevice.Viewport.Width/2+100,100);
             string introTxt="Use Up or Down arrow key to change angle\nUse Right or Left arrow key to change power\nPress Space to shoot\nHit R to reset values\n\n                          Press Enter to start";
             string winTxt1 = "Player 1's win!";
             string winTxt2 = "Player 2's win!";
@@ -506,6 +533,8 @@ namespace Basket__n_Ball
             string powerText = "Power: " + power1.ToString();
             string angleText2 = "Angle: " + angle2.ToString();
             string powerText2 = "Power: " + power2.ToString();
+            string turn1Text1="Turn "+numThrow1.ToString();
+            string turn1Text2="Turn "+numThrow2.ToString();
             spriteBatch.Begin();
 
             if (gameState == "title")
@@ -517,6 +546,7 @@ namespace Basket__n_Ball
                 if (splash == 1)
                 {
                     spriteBatch.Draw(bgi, bgiRec, Color.White);
+                    spriteBatch.DrawString(font, "Press C to continue", cVector, Color.Red);
                     spriteBatch.Draw(imgBasket, basketRec1, Color.White);
                     if (ballVisible)            // Only draw ball when boolean ballVisible is true
                     {
@@ -545,6 +575,7 @@ namespace Basket__n_Ball
                 spriteBatch.Draw(bgi, bgiRec, Color.White);
                 spriteBatch.Draw(imgBasket, basketRec1, Color.White);
                 spriteBatch.DrawString(font, "Player 1", playerVector, Color.Black);
+                spriteBatch.DrawString(font, turn1Text1, turnVec, Color.Black);
                 if (ballVisible)            // Only draw ball when boolean ballVisible is true
                 {
                     spriteBatch.Draw(imgBall, ballRec, Color.White);

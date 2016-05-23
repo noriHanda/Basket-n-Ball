@@ -83,6 +83,16 @@
       <Output>H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\bgi.xnb</Output>
       <Time>2016-05-16T12:35:22.1006445-05:00</Time>
     </Item>
+    <Item>
+      <Source>introBGM.mp3</Source>
+      <Name>introBGM</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\introBGM.xnb</Output>
+      <Extra>H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\introBGM.wma</Extra>
+      <Time>2016-05-23T13:16:27.7946679-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{8343CF1C-E837-49AD-9AA3-E9D8F004F624}</ContentProjectGUID>
