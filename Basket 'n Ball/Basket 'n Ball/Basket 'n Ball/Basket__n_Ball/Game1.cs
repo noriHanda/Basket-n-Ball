@@ -320,7 +320,7 @@ namespace Basket__n_Ball
                     angle1 += 1;
                 if (keys.IsKeyDown(Keys.Down) && angle1 != 0 && keyboardDelay == 0 && change)
                     angle1 -= 1;
-                if (keys.IsKeyDown(Keys.Right) && keyboardDelay == 0 && change)
+                if (keys.IsKeyDown(Keys.Right) && power1 != 100 && keyboardDelay == 0 && change)
                     power1 += 1;
                 if (keys.IsKeyDown(Keys.Left) && power1 != 0 && keyboardDelay == 0 && change)
                     power1 -= 1;
@@ -371,16 +371,23 @@ namespace Basket__n_Ball
                     if (ballRecX > GraphicsDevice.Viewport.Width || ballRecY > GraphicsDevice.Viewport.Height)
                     {
                         ballVisible = false;    // make it false so that 
-                        basketRandom2 = true;
                         time = 0;           // if this isn't here, when turn comes back to player 1, the ball will not start from its original place.
-                        gameState = "player2";  // Change turn
+                        gameState = "fail1";  // Change turn
                         fail.Play();
                         ballRecX = 10;          // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
                         ballRecY = 10;
-                        change = true;
-                        onlyOnce = true;
                         numThrow1++;
                     }
+                }
+            }
+            else if (gameState == "fail1")
+            {
+                if (keys.IsKeyDown(Keys.Space) && oldKey.IsKeyUp(Keys.Space))
+                {
+                    gameState = "player2";
+                    basketRandom2 = true;
+                    change = true;
+                    onlyOnce = true;
                 }
             }
 
@@ -398,7 +405,7 @@ namespace Basket__n_Ball
                     angle2 += 1;
                 if (keys.IsKeyDown(Keys.Down) && angle2 != 0 && keyboardDelay == 0 && change)
                     angle2 -= 1;
-                if (keys.IsKeyDown(Keys.Right) && keyboardDelay == 0 && change)
+                if (keys.IsKeyDown(Keys.Right) && power2 != 100 && keyboardDelay == 0 && change)
                     power2 += 1;
                 if (keys.IsKeyDown(Keys.Left) && power2 != 0 && keyboardDelay == 0 && change)
                     power2 -= 1;
@@ -429,7 +436,7 @@ namespace Basket__n_Ball
                     // ball  movement
 
                     // Generate X coordinate
-                    ballRecX = -1*(power2 * Math.Cos(angleR) * time2) + GraphicsDevice.Viewport.Width-70;                                          // x coordinate of ball
+                    ballRecX = -1 * (power2 * Math.Cos(angleR) * time2) + GraphicsDevice.Viewport.Width - 70;                                          // x coordinate of ball
                     // added length of display minus 70 to adjust atarting point of Y coordinate
                     // Generate Y coordinate
                     ballRecY = -power2 * Math.Sin(angleR) * time2 + Math.Pow(time2, 2) * g / 2 + 395;              // y coordinate of ball (subtract gravity) I multiplied minus 1 because otherwise, it will draw U-like shape.
@@ -447,21 +454,25 @@ namespace Basket__n_Ball
                     if (ballRecX < 0 || ballRecY > GraphicsDevice.Viewport.Height)
                     {
                         ballVisible = false;
-                        basketRandom1 = true;
-                        time2 = 0;          // if this isn't here, when turn comes back to player 2, the ball will not start from its original place.
-                        gameState = "player1";
+                        gameState = "fail2";
                         fail.Play();
                         ballRecX = 10;      // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
                         ballRecY = 10;
-                        change = true;
-                        onlyOnce = true;
                         numThrow2++;
                     }
                 }
             }
-                
-
-
+            else if (gameState == "fail2")
+            {
+                if (keys.IsKeyDown(Keys.Space) && oldKey.IsKeyUp(Keys.Space))
+                {
+                    basketRandom1 = true;
+                    time2 = 0;          // if this isn't here, when turn comes back to player 2, the ball will not start from its original place.
+                    change = true;
+                    onlyOnce = true;
+                    gameState = "player1";
+                }
+            }
                 if (ballRec.X > GraphicsDevice.Viewport.Width || ballRec.Y > GraphicsDevice.Viewport.Height)
                     ballVisible = false;
                 // Random number for position of basket
@@ -518,16 +529,17 @@ namespace Basket__n_Ball
         {
             GraphicsDevice.Clear(Color.White);
             // variables for draw
-            Vector2 powerVector = new Vector2(GraphicsDevice.Viewport.Width/5*2, 350);
-            Vector2 angleVector=new Vector2(GraphicsDevice.Viewport.Width/5*4,350);
-            Vector2 introVector=new Vector2(100,150);
-            Vector2 winVector =new Vector2(GraphicsDevice.Viewport.Width/2-100,GraphicsDevice.Viewport.Height/2);
+            Vector2 powerVector = new Vector2(GraphicsDevice.Viewport.Width / 5 * 3, 350);
+            Vector2 angleVector = new Vector2(GraphicsDevice.Viewport.Width / 5 * 1, 350);
+            Vector2 introVector = new Vector2(100, 150);
+            Vector2 winVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 220, GraphicsDevice.Viewport.Height / 2);
             Vector2 playerVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 100, 100);
             Vector2 cVector = new Vector2(270, 350);
-            Vector2 turnVec=new Vector2(GraphicsDevice.Viewport.Width/2+100,100);
+            Vector2 failVector = new Vector2(200, 150);
+            Vector2 turnVec = new Vector2(GraphicsDevice.Viewport.Width / 2 + 100, 100);
             string introTxt="Use Up or Down arrow key to change angle\nUse Right or Left arrow key to change power\nPress Space to shoot\nHit R to reset values\n\n                          Press Enter to start";
-            string winTxt1 = "Player 1's win!";
-            string winTxt2 = "Player 2's win!";
+            string winTxt1 = "Player 1's win!\nYou only made it in turn " + numThrow1.ToString() + "!";
+            string winTxt2 = "Player 2's win!\nYou only made it in turn " + numThrow2.ToString() + "!";
             ballRec = new Rectangle((int)ballRecX, (int)ballRecY, 10, 10);
             string angleText = "Angle: " + angle1.ToString();
             string powerText = "Power: " + power1.ToString();
@@ -546,7 +558,7 @@ namespace Basket__n_Ball
                 if (splash == 1)
                 {
                     spriteBatch.Draw(bgi, bgiRec, Color.White);
-                    spriteBatch.DrawString(font, "Press C to continue", cVector, Color.Red);
+                    
                     spriteBatch.Draw(imgBasket, basketRec1, Color.White);
                     if (ballVisible)            // Only draw ball when boolean ballVisible is true
                     {
@@ -564,6 +576,7 @@ namespace Basket__n_Ball
                     }
                     DrawSpritePlayer2(player2rec, player2curCol);
                 }
+                spriteBatch.DrawString(font, "Press C to continue", cVector, Color.Red);
                 spriteBatch.DrawString(font, "Basket 'n Ball", playerVector, Color.Black);
             }
             if (gameState=="intro")
@@ -584,6 +597,10 @@ namespace Basket__n_Ball
                 spriteBatch.DrawString(font, angleText, powerVector, Color.Black);
                 DrawSpritePlayer1(player1rec, player1curCol);
             }
+            if (gameState == "fail1")
+            {
+                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 2's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Orange);
+            }
             if (gameState == "player2")
             {
                 spriteBatch.Draw(bgi, bgiRec, Color.White);
@@ -596,6 +613,10 @@ namespace Basket__n_Ball
                 spriteBatch.DrawString(font, angleText2, angleVector, Color.Black);
                 spriteBatch.DrawString(font, powerText2, powerVector, Color.Black);
                 DrawSpritePlayer2(player2rec, player2curCol);
+            }
+            if (gameState == "fail2")
+            {
+                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 1's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Green);
             }
             if (gameState == "win1")
             {
