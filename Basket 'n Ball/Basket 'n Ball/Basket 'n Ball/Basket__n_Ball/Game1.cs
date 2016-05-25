@@ -364,6 +364,11 @@ namespace Basket__n_Ball
                     if (ballRec.Intersects(intersectRec))
                     {
                         gameState = "win1";
+                        time = 0;
+                        ballRecX = 10;
+                        ballRecY = 10;
+                        numThrow1 = 0;
+                        numThrow2 = 0;
                         ballVisible = false;    // stop showing ball
                         MediaPlayer.Pause();
                         success.Play();         // play sound effect
@@ -447,6 +452,11 @@ namespace Basket__n_Ball
                     {
                         gameState = "win2";
                         ballVisible = false;
+                        time2 = 0;
+                        ballRecX = 10;
+                        ballRecY = 10;
+                        numThrow2 = 0;
+                        numThrow1 = 0;
                         MediaPlayer.Pause();
                         success.Play();
                     }
@@ -472,6 +482,16 @@ namespace Basket__n_Ball
                     onlyOnce = true;
                     gameState = "player1";
                 }
+            }
+            else if (gameState == "win1")
+            {
+                if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
+                    gameState = "player2";
+            }
+            else if (gameState == "win2")
+            {
+                if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
+                    gameState = "player1";
             }
                 if (ballRec.X > GraphicsDevice.Viewport.Width || ballRec.Y > GraphicsDevice.Viewport.Height)
                     ballVisible = false;
@@ -531,15 +551,15 @@ namespace Basket__n_Ball
             // variables for draw
             Vector2 powerVector = new Vector2(GraphicsDevice.Viewport.Width / 5 * 3, 350);
             Vector2 angleVector = new Vector2(GraphicsDevice.Viewport.Width / 5 * 1, 350);
-            Vector2 introVector = new Vector2(100, 150);
-            Vector2 winVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 220, GraphicsDevice.Viewport.Height / 2);
+            Vector2 introVector = new Vector2(150, 90);
+            Vector2 winVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 220, GraphicsDevice.Viewport.Height / 2-60);
             Vector2 playerVector = new Vector2(GraphicsDevice.Viewport.Width / 2 - 100, 100);
             Vector2 cVector = new Vector2(270, 350);
             Vector2 failVector = new Vector2(200, 150);
             Vector2 turnVec = new Vector2(GraphicsDevice.Viewport.Width / 2 + 100, 100);
-            string introTxt="Use Up or Down arrow key to change angle\nUse Right or Left arrow key to change power\nPress Space to shoot\nHit R to reset values\n\n                          Press Enter to start";
-            string winTxt1 = "Player 1's win!\nYou only made it in turn " + numThrow1.ToString() + "!";
-            string winTxt2 = "Player 2's win!\nYou only made it in turn " + numThrow2.ToString() + "!";
+            string introTxt="Multiplayer game!\nTry getting a ball into a basket\nTwo players change turn alternately\nUse Up or Down arrow key to change angle\nUse Right or Left arrow key to change power\nPress Space to shoot\nHit R to reset values\n\n                          Press Enter to start";
+            string winTxt1 = "Player 1's win!\nYou only made it in turn " + numThrow1.ToString() + "!"+"\nPlayer2, wanna revenge?\n                 Yes(Y)     No(Esc)";
+            string winTxt2 = "Player 2's win!\nYou only made it in turn " + numThrow2.ToString() + "!"+"\nPlayer2, wanna revenge?\n                 Yes(Y)     No(Esc)";
             ballRec = new Rectangle((int)ballRecX, (int)ballRecY, 10, 10);
             string angleText = "Angle: " + angle1.ToString();
             string powerText = "Power: " + power1.ToString();
@@ -587,31 +607,31 @@ namespace Basket__n_Ball
             {
                 spriteBatch.Draw(bgi, bgiRec, Color.White);
                 spriteBatch.Draw(imgBasket, basketRec1, Color.White);
-                spriteBatch.DrawString(font, "Player 1", playerVector, Color.Black);
-                spriteBatch.DrawString(font, turn1Text1, turnVec, Color.Black);
+                spriteBatch.DrawString(font, "Player 1", playerVector, Color.Red);
+                spriteBatch.DrawString(font, turn1Text1, turnVec, Color.Red);
                 if (ballVisible)            // Only draw ball when boolean ballVisible is true
                 {
                     spriteBatch.Draw(imgBall, ballRec, Color.White);
                 }
-                spriteBatch.DrawString(font, powerText, angleVector, Color.Black);
-                spriteBatch.DrawString(font, angleText, powerVector, Color.Black);
+                spriteBatch.DrawString(font, powerText, angleVector, Color.Red);
+                spriteBatch.DrawString(font, angleText, powerVector, Color.Red);
                 DrawSpritePlayer1(player1rec, player1curCol);
             }
             if (gameState == "fail1")
             {
-                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 2's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Orange);
+                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 2's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Red);
             }
             if (gameState == "player2")
             {
                 spriteBatch.Draw(bgi, bgiRec, Color.White);
                 spriteBatch.Draw(imgBasket, basketRec2, Color.White);
-                spriteBatch.DrawString(font, "Player 2", playerVector, Color.Black);
+                spriteBatch.DrawString(font, "Player 2", playerVector, Color.Green);
                 if (ballVisible)    // Only draw ball when boolean ballVisible is true
                 {
                     spriteBatch.Draw(imgBall, ballRec, Color.White);
                 }
-                spriteBatch.DrawString(font, angleText2, angleVector, Color.Black);
-                spriteBatch.DrawString(font, powerText2, powerVector, Color.Black);
+                spriteBatch.DrawString(font, angleText2, angleVector, Color.Green);
+                spriteBatch.DrawString(font, powerText2, powerVector, Color.Green);
                 DrawSpritePlayer2(player2rec, player2curCol);
             }
             if (gameState == "fail2")
@@ -620,11 +640,11 @@ namespace Basket__n_Ball
             }
             if (gameState == "win1")
             {
-                spriteBatch.DrawString(font, winTxt1, winVector, Color.Black);
+                spriteBatch.DrawString(font, winTxt1, winVector, Color.Red);
             }
             if (gameState == "win2")
             {
-                spriteBatch.DrawString(font, winTxt2, winVector, Color.Black);
+                spriteBatch.DrawString(font, winTxt2, winVector, Color.Green);
             }
             spriteBatch.End();
             base.Draw(gameTime);

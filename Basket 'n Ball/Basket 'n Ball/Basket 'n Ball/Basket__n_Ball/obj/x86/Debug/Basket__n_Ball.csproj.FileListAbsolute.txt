@@ -16,3 +16,7 @@ H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ba
 H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\bgi.xnb
 H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\introBGM.xnb
 H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Content\introBGM.wma
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Basket__n_Ball.exe.manifest
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\bin\x86\Debug\Basket__n_Ball.application
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Basket__n_Ball.exe.manifest
+H:\M256 Handa\XNA\Final Project Handa\Basket 'n Ball\Basket 'n Ball\Basket__n_Ball\obj\x86\Debug\Basket__n_Ball.application
