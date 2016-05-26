@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Basket__n_Ball.exe" size="21904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Basket__n_Ball.exe" size="22416">
       <assemblyIdentity name="Basket__n_Ball" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>0ukY6yk3JGddu42Y7BF9UgpAHJI=</dsig:DigestValue>
+        <dsig:DigestValue>AXkdlmXp2JcedthMTy1tHFeLavU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -263,6 +263,10 @@ namespace Basket__n_Ball
                             ballRecX = 10;      // Need to be set as numbers that is not on/out of the edge of the screen. if not, soundeffect etc won't work properly
                             ballRecY = 10;
                             splashInterval = 0; // Reset to 0 so that this can be used again 
+                            angle1 = 0;
+                            power1 = 50;
+                            angle2 = 0;
+                            power2 = 50;
                         }
                         // If ball hits edge of screen, set ballvisible to false so that it won't move anymore.
                         if (ballRecX < 0 || ballRecY > GraphicsDevice.Viewport.Height)
@@ -367,8 +371,8 @@ namespace Basket__n_Ball
                         time = 0;
                         ballRecX = 10;
                         ballRecY = 10;
-                        numThrow1 = 0;
-                        numThrow2 = 0;
+                        numThrow1 = 1;
+                        numThrow2 = 1;
                         ballVisible = false;    // stop showing ball
                         MediaPlayer.Pause();
                         success.Play();         // play sound effect
@@ -455,8 +459,12 @@ namespace Basket__n_Ball
                         time2 = 0;
                         ballRecX = 10;
                         ballRecY = 10;
-                        numThrow2 = 0;
-                        numThrow1 = 0;
+                        numThrow2 = 1;
+                        numThrow1 = 1;
+                        angle1 = 0;
+                        power1 = 50;
+                        angle2 = 0;
+                        power2 = 50;
                         MediaPlayer.Pause();
                         success.Play();
                     }
@@ -486,12 +494,20 @@ namespace Basket__n_Ball
             else if (gameState == "win1")
             {
                 if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
+                {
                     gameState = "player2";
+                    change = true;
+                    onlyOnce = true;
+                }
             }
             else if (gameState == "win2")
             {
                 if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
+                {
                     gameState = "player1";
+                    change = true;
+                    onlyOnce = true;
+                }
             }
                 if (ballRec.X > GraphicsDevice.Viewport.Width || ballRec.Y > GraphicsDevice.Viewport.Height)
                     ballVisible = false;
@@ -558,15 +574,15 @@ namespace Basket__n_Ball
             Vector2 failVector = new Vector2(200, 150);
             Vector2 turnVec = new Vector2(GraphicsDevice.Viewport.Width / 2 + 100, 100);
             string introTxt="Multiplayer game!\nTry getting a ball into a basket\nTwo players change turn alternately\nUse Up or Down arrow key to change angle\nUse Right or Left arrow key to change power\nPress Space to shoot\nHit R to reset values\n\n                          Press Enter to start";
-            string winTxt1 = "Player 1's win!\nYou only made it in turn " + numThrow1.ToString() + "!"+"\nPlayer2, wanna revenge?\n                 Yes(Y)     No(Esc)";
-            string winTxt2 = "Player 2's win!\nYou only made it in turn " + numThrow2.ToString() + "!"+"\nPlayer2, wanna revenge?\n                 Yes(Y)     No(Esc)";
+            string winTxt1 = "Player 1's win!\nYou only made it in turn " + numThrow1.ToString() + "!"+"\nPlayer 1, wanna revenge?\n                 Yes(Y)     No(Esc)";
+            string winTxt2 = "Player 2's win!\nYou only made it in turn " + numThrow2.ToString() + "!"+"\nPlayer 1, wanna revenge?\n                 Yes(Y)     No(Esc)";
             ballRec = new Rectangle((int)ballRecX, (int)ballRecY, 10, 10);
             string angleText = "Angle: " + angle1.ToString();
             string powerText = "Power: " + power1.ToString();
             string angleText2 = "Angle: " + angle2.ToString();
             string powerText2 = "Power: " + power2.ToString();
-            string turn1Text1="Turn "+numThrow1.ToString();
-            string turn1Text2="Turn "+numThrow2.ToString();
+            string turnText1="Turn "+numThrow1.ToString();
+            string turnText2="Turn "+numThrow2.ToString();
             spriteBatch.Begin();
 
             if (gameState == "title")
@@ -608,7 +624,7 @@ namespace Basket__n_Ball
                 spriteBatch.Draw(bgi, bgiRec, Color.White);
                 spriteBatch.Draw(imgBasket, basketRec1, Color.White);
                 spriteBatch.DrawString(font, "Player 1", playerVector, Color.Red);
-                spriteBatch.DrawString(font, turn1Text1, turnVec, Color.Red);
+                spriteBatch.DrawString(font, turnText1, turnVec, Color.Red);
                 if (ballVisible)            // Only draw ball when boolean ballVisible is true
                 {
                     spriteBatch.Draw(imgBall, ballRec, Color.White);
@@ -632,6 +648,7 @@ namespace Basket__n_Ball
                 }
                 spriteBatch.DrawString(font, angleText2, angleVector, Color.Green);
                 spriteBatch.DrawString(font, powerText2, powerVector, Color.Green);
+                spriteBatch.DrawString(font, turnText2, turnVec, Color.Green);
                 DrawSpritePlayer2(player2rec, player2curCol);
             }
             if (gameState == "fail2")
