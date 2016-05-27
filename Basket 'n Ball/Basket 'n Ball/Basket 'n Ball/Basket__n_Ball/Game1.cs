@@ -110,8 +110,8 @@ namespace Basket__n_Ball
             bgm = Content.Load<Song>("bgm");
             introBGM = Content.Load<Song>("introBGM");
 
-            player1SSwidth = imgPlayer1.Width / 5;      // Get width of each section
-            player2SSwidth = imgPlayer2.Width / 16;      // Get width of each section
+            player1SSwidth = imgPlayer1.Width / 5;      // Get width of each section of sprite sheet
+            player2SSwidth = imgPlayer2.Width / 16;      // Get width of each section of sprite sheet
             player1SSheight = imgPlayer1.Height;
             player2SSheight = imgPlayer2.Height;
         }
@@ -139,14 +139,11 @@ namespace Basket__n_Ball
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed||keys.IsKeyDown(Keys.Escape))
                 this.Exit();
             // Automatic spash screen movement
-            if (gameState == "title")
+            if (gameState == "title")   // generate and set values for player 1.
             {
-                if (keys.IsKeyDown(Keys.Space)||oldKey.IsKeyUp(Keys.Space))
-                {
-                    rdmPA1 = true;
-                    gameState = "splash";
-                    basketRandom1 = true;
-                }
+                rdmPA1 = true;
+                gameState = "splash";
+                basketRandom1 = true;
             }
             if (gameState == "splash")
             {
@@ -320,6 +317,7 @@ namespace Basket__n_Ball
                     angle1 = 0;
                     power1 = 50;
                 }
+                // keyboard detection. Set max min values. Only can be changed when change is true which is when character is not moving or ball is visible.
                 if (keys.IsKeyDown(Keys.Up) && angle1 != 90 && keyboardDelay == 0 && change)
                     angle1 += 1;
                 if (keys.IsKeyDown(Keys.Down) && angle1 != 0 && keyboardDelay == 0 && change)
@@ -389,7 +387,7 @@ namespace Basket__n_Ball
                     }
                 }
             }
-            else if (gameState == "fail1")
+            else if (gameState == "fail1")  // display a screen for this and wait for next player to press space
             {
                 if (keys.IsKeyDown(Keys.Space) && oldKey.IsKeyUp(Keys.Space))
                 {
@@ -410,6 +408,7 @@ namespace Basket__n_Ball
                     angle2 = 0;
                     power2 = 50;
                 }
+                // keyboard detection. Set max min values. Only can be changed when change is true which is when character is not moving or ball is visible.
                 if (keys.IsKeyDown(Keys.Up) && angle2 != 90 && keyboardDelay == 0 && change)
                     angle2 += 1;
                 if (keys.IsKeyDown(Keys.Down) && angle2 != 0 && keyboardDelay == 0 && change)
@@ -480,7 +479,7 @@ namespace Basket__n_Ball
                     }
                 }
             }
-            else if (gameState == "fail2")
+            else if (gameState == "fail2")  // display a screen for this and wait for next player to press space
             {
                 if (keys.IsKeyDown(Keys.Space) && oldKey.IsKeyUp(Keys.Space))
                 {
@@ -491,7 +490,7 @@ namespace Basket__n_Ball
                     gameState = "player1";
                 }
             }
-            else if (gameState == "win1")
+            else if (gameState == "win1")   // declare winner and give loser option to restart
             {
                 if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
                 {
@@ -500,7 +499,7 @@ namespace Basket__n_Ball
                     onlyOnce = true;
                 }
             }
-            else if (gameState == "win2")
+            else if (gameState == "win2")   // declare winner and give loser option to restart
             {
                 if (keys.IsKeyDown(Keys.Y) && oldKey.IsKeyUp(Keys.Y))
                 {
@@ -528,13 +527,13 @@ namespace Basket__n_Ball
                 }
                 
                 // random numbers for splash screen
-                if (rdmPA1)
+                if (rdmPA1) // random power & angle
                 {
                     angleR1 = rndmAngle.Next(0, 90);
                     powR1 = rndmPow.Next(50, 100);
                     rdmPA1 = false;
                 }
-                if (rdmPA2)
+                if (rdmPA2) // random power & angle
                 {
                     angleR2 = rndmAngle.Next(0, 90);
                     powR2 = rndmPow.Next(50, 100);
@@ -585,10 +584,6 @@ namespace Basket__n_Ball
             string turnText2="Turn "+numThrow2.ToString();
             spriteBatch.Begin();
 
-            if (gameState == "title")
-            {
-                spriteBatch.DrawString(font, "Basket 'n Ball", playerVector, Color.Red);
-            }
             if (gameState == "splash")
             {
                 if (splash == 1)
@@ -635,7 +630,7 @@ namespace Basket__n_Ball
             }
             if (gameState == "fail1")
             {
-                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 2's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Red);
+                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 2's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Red);       // Display message that tells that the player didn't make it and next player presses space to start.
             }
             if (gameState == "player2")
             {
@@ -653,15 +648,15 @@ namespace Basket__n_Ball
             }
             if (gameState == "fail2")
             {
-                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 1's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Green);
+                spriteBatch.DrawString(font, "Uh Oh\nYou missed it. Now Player 1's turn.\nAre you ready?\n\n            Press Space to continue", failVector, Color.Green);     // Display message that tells that the player didn't make it and next player presses space to start.
             }
             if (gameState == "win1")
             {
-                spriteBatch.DrawString(font, winTxt1, winVector, Color.Red);
+                spriteBatch.DrawString(font, winTxt1, winVector, Color.Red);    // display winning screen and give loser opition to start the game over
             }
             if (gameState == "win2")
             {
-                spriteBatch.DrawString(font, winTxt2, winVector, Color.Green);
+                spriteBatch.DrawString(font, winTxt2, winVector, Color.Green);  // display winning screen and give loser opition to start the game over
             }
             spriteBatch.End();
             base.Draw(gameTime);
